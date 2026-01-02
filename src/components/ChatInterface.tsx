@@ -117,7 +117,7 @@ export function ChatInterface({ messages, onSendMessage, isLoading, className }:
             </div>
             <h4 className="font-medium mb-2">Ready to Generate P&IDs</h4>
             <p className="text-sm text-muted-foreground max-w-sm">
-              Describe your process and I'll help you create a compliant Piping and Instrumentation Diagram using the DEXPI standard.
+              Describe your process and I will help you create a compliant Piping and Instrumentation Diagram.
             </p>
           </div>
         ) : (
