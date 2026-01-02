@@ -2,10 +2,17 @@ import { cn } from "@/lib/utils";
 import { FileCode, Network, Table2, Download, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { InteractiveGraph } from "./InteractiveGraph";
 
 interface PIDPreviewProps {
   sfilesOutput: string | null;
-  graphData: object | null;
+  graphData: {
+    equipment?: Array<{
+      tag: string;
+      type: string;
+      description: string;
+    }>;
+  } | null;
   isGenerating: boolean;
   className?: string;
 }
@@ -80,7 +87,7 @@ export function PIDPreview({ sfilesOutput, graphData, isGenerating, className }:
             </div>
           </div>
         ) : sfilesOutput ? (
-          <div className="space-y-4">
+          <div className="h-full">
             {activeTab === "sfiles" && (
               <pre className="font-mono text-sm bg-secondary/50 rounded-lg p-4 overflow-x-auto border border-border">
                 <code className="text-foreground">{sfilesOutput}</code>
@@ -88,12 +95,8 @@ export function PIDPreview({ sfilesOutput, graphData, isGenerating, className }:
             )}
             
             {activeTab === "graph" && (
-              <div className="aspect-video bg-secondary/50 rounded-lg border border-border flex items-center justify-center">
-                <div className="text-center">
-                  <Network className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-                  <p className="text-sm text-muted-foreground">Interactive graph visualization</p>
-                  <p className="text-xs text-muted-foreground/70 mt-1">Coming with pyDEXPI integration</p>
-                </div>
+              <div className="h-full min-h-[400px]">
+                <InteractiveGraph graphData={graphData} className="h-full" />
               </div>
             )}
             
@@ -108,7 +111,7 @@ export function PIDPreview({ sfilesOutput, graphData, isGenerating, className }:
                     </tr>
                   </thead>
                   <tbody>
-                    {(graphData as any).equipment?.map((eq: any, i: number) => (
+                    {graphData.equipment?.map((eq, i) => (
                       <tr key={i} className="border-b border-border/50">
                         <td className="py-2 px-3 font-mono text-primary">{eq.tag}</td>
                         <td className="py-2 px-3">{eq.type}</td>
@@ -127,7 +130,7 @@ export function PIDPreview({ sfilesOutput, graphData, isGenerating, className }:
             </div>
             <h4 className="font-medium text-muted-foreground mb-2">No Output Yet</h4>
             <p className="text-sm text-muted-foreground/70 max-w-sm">
-              Describe your process in the chat to generate P&ID data in SFILES 2.0 format, compatible with pyDEXPI.
+              Describe your process in the chat to generate P&ID data in SFILES 2.0 format.
             </p>
           </div>
         )}
